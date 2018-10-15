@@ -95,3 +95,48 @@ brfss_smart2010 %>%
   theme_bw()
 ```
 
+#Problem 2
+
+###How many aisles are there, and which aisles are the most items ordered from?
+```{r}
+insta = instacart %>% janitor::clean_names() 
+
+insta %>% 
+  count(aisle) %>% 
+  arrange(desc(n))
+```
+
+There are 134 aisles. Fresh vegetables are the most items.
+
+###Make a plot that shows the number of items ordered in each aisle. Order aisles sensibly, and organize your plot so others can read it.
+```{r}
+insta %>% 
+  group_by(aisle) %>% 
+  summarize(n = n()) %>% 
+  ggplot(aes(x = aisle, y = n)) +
+  geom_point()
+```
+
+###Make a table showing the most popular item in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”.
+```{r}
+insta %>%
+  filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables fruits")) %>% 
+  group_by(aisle) %>%
+  count(product_name) %>%
+  filter(n == max(n)) %>% 
+  knitr::kable()
+```
+
+###Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
+```{r}
+insta %>%
+  filter(product_name %in% c("Pink Lady Apples", "Coffee Ice Cream")) %>%
+  mutate(order_dow = 
+           factor(order_dow, labels = c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"))) %>% 
+  group_by(product_name, order_dow) %>%
+  summarize(mean_hour = mean(order_hour_of_day)) %>% 
+  spread(key = order_dow, value = mean_hour) %>% 
+  knitr::kable()
+```
+
+
