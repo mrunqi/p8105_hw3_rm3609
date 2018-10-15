@@ -52,6 +52,8 @@ brfss_smart2010 %>%
   
 ```
 
+CT, FL, NC were observed at 7 location in 2002.
+
 ###Make a “spaghetti plot” that shows the number of locations in each state from 2002 to 2010.
 ```{r}
 brfss_smart2010 %>% 
@@ -69,6 +71,8 @@ brfss_smart2010 %>%
   
 ```
 
+The “spaghetti plot” shows the number of locations in each state from 2002 to 2010. It is hard to distinguish every state in this plot beacause there are too many states. But you can see most states have location number under 10, and one state has a peak in 2007.
+
 ###Make a table showing, for the years 2002, 2006, and 2010, the mean and standard deviation of the proportion of “Excellent” responses across locations in NY State.
 ```{r}
 brfss_smart2010 %>% 
@@ -78,6 +82,8 @@ brfss_smart2010 %>%
             sd = sd(data_value)) %>% 
   knitr::kable()
 ```
+
+The table shows the mean and standard deviation of the proportion of “Excellent” responses across locations in NY State, for the years 2002, 2006, and 2010. It seems that there are not much difference between three years.
 
 ###For each year and state, compute the average proportion in each response category (taking the average across locations in a state). Make a five-panel plot that shows, for each response category separately, the distribution of these state-level averages over time.
 ```{r}
@@ -95,14 +101,18 @@ brfss_smart2010 %>%
   theme_bw()
 ```
 
+The average proportion in each response category across different states and years is general similar. "Poor" has the lowest proportion while "Very Good" has the highest. 
+
 #Problem 2
-
-
+###Write a short description of the dataset, noting the size and structure of the data, describing some key variables, and giving illstrative examples of observations. 
+```{r}
+insta = instacart %>% janitor::clean_names()
+skimr::skim(insta)
+```
+The instacart dataset has 1384617 observations and 15 variables. It contains online grocery orders information, such as the time, order id, user id, pruduct information (alsie, pruduct name, apartment) and so on.
 
 ###How many aisles are there, and which aisles are the most items ordered from?
 ```{r}
-insta = instacart %>% janitor::clean_names() 
-
 insta %>% 
   count(aisle) %>% 
   arrange(desc(n))
@@ -116,7 +126,13 @@ insta %>%
   group_by(aisle) %>% 
   summarize(n = n()) %>% 
   ggplot(aes(x = aisle, y = n)) +
-  geom_point()
+  geom_point() +
+  labs(
+    title = "number of items ordered in each aisle",
+    x = "Year",
+    y = "aisle"
+  ) + 
+  theme_bw()
 ```
 
 ###Make a table showing the most popular item in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”.
@@ -129,6 +145,8 @@ insta %>%
   knitr::kable()
 ```
 
+The most popular item in baking ingredients is Light Brown Sugar, in dog food care is Snack Sticks Chicken & Rice Recipe Dog Treats, in packaged vegetables fruits is Organic Baby Spinach.
+
 ###Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
 ```{r}
 insta %>%
@@ -140,13 +158,15 @@ insta %>%
   spread(key = order_dow, value = mean_hour) %>% 
   knitr::kable()
 ```
-
+The table shows the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week. Day 0 in dataset represents Sunday. 
 
 #Problem 3
-
+Write a short description of the dataset, noting the size and structure of the data, describing some key variables, and indicating the extent to which missing data is an issue.
 ```{r}
 skimr::skim(ny_noaa)
 ```
+
+The ny_noaa dataset has 2595176 observations and 7 variables. It contains the weather data for NY across years. There are a lot of missing value in max and min temperature, precipitation, snowfall and snow depth. Precipitation, snowfall and snow depth data are highly skewed.
 
 ###Do some data cleaning. Create separate variables for year, month, and day. Ensure observations for temperature, precipitation, and snowfall are given in reasonable units. For snowfall, what are the most commonly observed values? Why?
 
@@ -183,6 +203,8 @@ noaa %>%
   theme_bw()
   
 ```
+
+For Janurary, there are outliers both above and under the boxes, means there are abnormal high and low temperature in Janurary. However in July, most of the outliers are above the boxes.
 
 ###Make a two-panel plot showing (i) tmax vs tmin for the full dataset (note that a scatterplot may not be the best option) (ii) make a plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.
 ```{r}
