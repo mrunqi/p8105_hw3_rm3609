@@ -159,9 +159,31 @@ data(brfss_smart2010)
 brfss_smart2010 = janitor::clean_names(brfss_smart2010) %&gt;% 
   rename(resp_id = respid, location_abbr = locationabbr, location_desc = locationdesc) %&gt;% 
   filter(topic == &quot;Overall Health&quot;, 
-         response == c(&quot;Excellent&quot;,&quot;Very good&quot;,&quot;Good&quot;,&quot;Fair&quot;,&quot;Poor&quot;))</code></pre>
-<pre><code>## Warning in response == c(&quot;Excellent&quot;, &quot;Very good&quot;, &quot;Good&quot;, &quot;Fair&quot;, &quot;Poor&quot;):
-## 长的对象长度不是短的对象长度的整倍数</code></pre>
+         response %in% c(&quot;Excellent&quot;,&quot;Very good&quot;,&quot;Good&quot;,&quot;Fair&quot;,&quot;Poor&quot;))
+
+brfss_smart2010$response = as.factor(brfss_smart2010$response)
+levels(brfss_smart2010$response) = c(&quot;Excellent&quot;,&quot;Very good&quot;,&quot;Good&quot;,&quot;Fair&quot;,&quot;Poor&quot;)  
+brfss_smart2010</code></pre>
+<pre><code>## # A tibble: 10,625 x 23
+##     year location_abbr location_desc class topic question response
+##    &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;fct&gt;   
+##  1  2010 AL            AL - Jeffers… Heal… Over… How is … Excelle…
+##  2  2010 AL            AL - Jeffers… Heal… Over… How is … Poor    
+##  3  2010 AL            AL - Jeffers… Heal… Over… How is … Good    
+##  4  2010 AL            AL - Jeffers… Heal… Over… How is … Very go…
+##  5  2010 AL            AL - Jeffers… Heal… Over… How is … Fair    
+##  6  2010 AL            AL - Mobile … Heal… Over… How is … Excelle…
+##  7  2010 AL            AL - Mobile … Heal… Over… How is … Poor    
+##  8  2010 AL            AL - Mobile … Heal… Over… How is … Good    
+##  9  2010 AL            AL - Mobile … Heal… Over… How is … Very go…
+## 10  2010 AL            AL - Mobile … Heal… Over… How is … Fair    
+## # ... with 10,615 more rows, and 16 more variables: sample_size &lt;int&gt;,
+## #   data_value &lt;dbl&gt;, confidence_limit_low &lt;dbl&gt;,
+## #   confidence_limit_high &lt;dbl&gt;, display_order &lt;int&gt;,
+## #   data_value_unit &lt;chr&gt;, data_value_type &lt;chr&gt;,
+## #   data_value_footnote_symbol &lt;chr&gt;, data_value_footnote &lt;chr&gt;,
+## #   data_source &lt;chr&gt;, class_id &lt;chr&gt;, topic_id &lt;chr&gt;, location_id &lt;chr&gt;,
+## #   question_id &lt;chr&gt;, resp_id &lt;chr&gt;, geo_location &lt;chr&gt;</code></pre>
 </div>
 </div>
 

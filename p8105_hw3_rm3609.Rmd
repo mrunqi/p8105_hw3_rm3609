@@ -33,9 +33,11 @@ data(brfss_smart2010)
 brfss_smart2010 = janitor::clean_names(brfss_smart2010) %>% 
   rename(resp_id = respid, location_abbr = locationabbr, location_desc = locationdesc) %>% 
   filter(topic == "Overall Health", 
-         response == c("Excellent","Very good","Good","Fair","Poor"))
-  
+         response %in% c("Excellent","Very good","Good","Fair","Poor"))
 
+brfss_smart2010$response = as.factor(brfss_smart2010$response)
+levels(brfss_smart2010$response) = c("Excellent","Very good","Good","Fair","Poor")  
+brfss_smart2010
 ```
 
 
