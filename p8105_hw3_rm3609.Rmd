@@ -2,7 +2,7 @@
 title: "p8105_hw3_rm3609"
 author: "Runqi Ma"
 date: "2018/10/14"
-output: html_document
+output: github_document
 ---
 
 
